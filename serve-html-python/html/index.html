@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bird Image Classification</title>
+</head>
+
+<body>
+    <form id="form">
+        <div>
+            <p>
+                <label for="file">분류할 새의 파일을 제출하세요</label>
+            </p>
+            <input type="file" id="img-file" name="file" accept="image/png, image/jpeg"/>
+        </div>
+
+        <div>
+            <img id="img-preview" alt="" src="#" height="256" width="256"/>
+        </div>
+        <div>
+            <button id="submit">제출하기</button> 
+        </div>
+    </form>
+    
+    <div id="result">
+    </div>
+</body>
+<script>
+    const imgFile = document.getElementById("img-file");
+    const classify_form = document.getElementById("form");
+
+    classify_form.addEventListener('submit', (e)=>{
+        e.preventDefault();
+
+        const payload = new FormData();
+	payload.append('file', imgFile.files[0]);
+	
+	fetch("http://43.200.57.138:31112/function/custom-faas" , {
+            method: "POST",
+            body: payload,
+        })
+        .then(res=>res.json())
+        .then(res=>{
+            const result = document.getElementById("result");
+            result.innerText = res.class_name;
+        });
+    });
+
+    const img_preview = document.getElementById("img-preview");
+
+    imgFile.onchange = (event)=>{
+        const [file] = imgFile.files;
+        if (file) {
+            img_preview.src = URL.createObjectURL(file);
+        }
+    };
+</script>
+
+</html>

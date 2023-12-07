@@ -1,0 +1,11 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:31112
+functions:
+  serve-html-python:
+    lang: python3
+    handler: ./serve-html-python
+    image: timido7021/serve-html-python:latest
+    environment:
+        content_type: text/html
