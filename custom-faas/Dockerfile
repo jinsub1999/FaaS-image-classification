@@ -27,8 +27,8 @@ COPY --chown=app:app classes.json   .
 COPY --chown=app:app model.pt .
 USER root
 
-RUN pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
-RUN pip install Flask timm gunicorn
+RUN pip install --no-cache-dir torch torchvision --index-url https://download.pytorch.org/whl/cpu
+RUN pip install --no-cache-dir Flask timm gunicorn
 
 USER app
 
